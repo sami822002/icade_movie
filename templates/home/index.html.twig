@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movies {% endblock %}
+{% block body %}
+    {% set gender_array = {} %}
+    <div class="jumbotron">
+        {{ form_start(form) }}
+        <div class="form-row align-items-end">
+            <div class="col">
+                {{ form_row(form.movieName) }}
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <button class="btn btn-primary">Rechercher</button>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+    <div class="container">
+        {{ include('bestmovie.html.twig',{firstBest: firstBest}) }}
+        <div class="container box">
+            <table class="table table-striped table-hover gender">
+                <tbody>
+                {% set search ="" %}
+                {% if app.request.query.get('movie_search').movieName is defined %}
+                    {% set search = app.request.query.get('movie_search').movieName %}
+                {% endif %}
+                {% for key,gender in genders %}
+                    {% set genderId = gender.id %}
+                    {% set gender_array = gender_array|merge({ ('id_' ~ gender.id) : gender.name}) %}
+                    <tr>
+                        <td class="text-left align-middle gender">
+                            <input id="genderId" name="genderId" type="hidden" value="{{ gender.id }}">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <a href="javascript:void(0);" id="gender_{{ gender.id }}"
+                                       onclick="moviesByGender({{ genders |json_encode(constant('JSON_PRETTY_PRINT')) }},
+                                       {{ gender |json_encode(constant('JSON_PRETTY_PRINT')) }},'{{ search }}')"> {{ gender.name }}</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <table class="table table-striped table-hover movies">
+            </table>
+        </div>
+    </div>
+    <div/>
+{% endblock %}

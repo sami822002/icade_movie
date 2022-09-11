@@ -1,0 +1,23 @@
+<div id="bestMovie">
+    {% set break = false %}
+    {% for keyy,video in firstBest.videos.results %}
+        {% if not break %}
+            {% if video.type =='Trailer' %}
+                <iframe src="https://www.youtube.com/embed/{{ video.key }}" frameborder="0" width="920" height="600"
+                        allowfullscreen></iframe>
+                {% set break = true %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+{% set genre='' %}
+{% set sep='' %}
+{% for k,gender in firstBest.genres %}
+    {% set genre =genre~sep~gender.name %}
+    {% set sep=',' %}
+{% endfor %}
+<div class="description">
+    <h3>{{ firstBest.title }}</h3>
+    <h6>{{ firstBest.release_date }} - ({{ firstBest.original_language|upper }}) - {{ genre }}</h6>
+    <p>{{ firstBest.overview }}</p>
+</div>
