@@ -13,6 +13,8 @@ Renseigner la valeur de ``API_KEY`` dans le fichier ``.env``
 
 ```` composer install```` 
 
+```` npm install```` 
+
   ```` npm run dev ```` 
   
   ```` symfony serve -d ```` 
